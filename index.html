@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore - Sistema de Gestión</title>
+  
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap-icons.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-dark sticky-top shadow">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">
+        <i class="bi bi-laptop-fill me-2 text-info"></i>TechStore <span class="badge bg-info text-dark font-monospace fs-6">v1.0</span>
+      </span>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <ul class="nav nav-pills nav-justified mb-4 shadow-sm rounded bg-light p-1" id="mainTabs" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab"><i class="bi bi-box-seam me-2"></i>Productos</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="clientes-tab" data-bs-toggle="tab" data-bs-target="#clientes" type="button" role="tab"><i class="bi bi-people-fill me-2"></i>Clientes</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="ventas-tab" data-bs-toggle="tab" data-bs-target="#ventas" type="button" role="tab"><i class="bi bi-cart-check-fill me-2"></i>Punto de Venta</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="mainTabsContent">
+      
+      <div class="tab-pane fade show active" id="productos" role="tabpanel">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-header bg-primary text-white"><i class="bi bi-plus-circle me-2"></i>Agregar Producto</div>
+              <div class="card-body">
+                <form id="formProducto">
+                  <div class="mb-3">
+                    <label class="form-label">Nombre del Componente</label>
+                    <input type="text" id="prodNombre" class="form-control" placeholder="Ej. Tarjeta de Video RTX 4060" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Categoría</label>
+                    <input type="text" id="prodCategoria" class="form-control" placeholder="Ej. Hardware, Periféricos" required>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label class="form-label">Precio ($)</label>
+                      <input type="number" id="prodPrecio" class="form-control" step="0.01" min="1" required>
+                    </div>
+                    <div class="col mb-3">
+                      <label class="form-label">Stock Inicial</label>
+                      <input type="number" id="prodStock" class="form-control" min="0" required>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar en Inventario</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="bi bi-list-stars text-primary me-2"></i>Existencias</h5>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tablaProductos"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="clientes" role="tabpanel">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-header bg-success text-white"><i class="bi bi-person-plus-fill me-2"></i>Registrar Cliente</div>
+              <div class="card-body">
+                <form id="formCliente">
+                  <div class="mb-3">
+                    <label class="form-label">Nombre Completo</label>
+                    <input type="text" id="cliNombre" class="form-control" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" id="cliCorreo" class="form-control" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Teléfono</label>
+                    <input type="tel" id="cliTelefono" class="form-control" required>
+                  </div>
+                  <button type="submit" class="btn btn-success w-100"><i class="bi bi-check-circle me-2"></i>Registrar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="bi bi-person-lines-fill text-success me-2"></i>Directorio de Clientes</h5>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tablaClientes"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="ventas" role="tabpanel">
+        <div class="row mb-4">
+          <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-header bg-info text-dark fw-bold"><i class="bi bi-bag-plus-fill me-2"></i>Nueva Nota de Venta</div>
+              <div class="card-body">
+                <form id="formVenta">
+                  <div class="mb-3">
+                    <label class="form-label">Seleccionar Cliente</label>
+                    <select id="selectCliente" class="form-select" required>
+                      <option value="">-- Elige un cliente --</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Seleccionar Producto</label>
+                    <select id="selectProducto" class="form-select">
+                      <option value="">-- Elige un producto --</option>
+                    </select>
+                  </div>
+                  <div class="row align-items-end mb-3">
+                    <div class="col-7">
+                      <label class="form-label">Cantidad a llevar</label>
+                      <input type="number" id="ventaCantidad" class="form-control" value="1" min="1">
+                    </div>
+                    <div class="col-5">
+                      <button type="button" id="btnAgregarCarrito" class="btn btn-warning w-100 fw-bold"><i class="bi bi-plus-lg"></i> Añadir</button>
+                    </div>
+                  </div>
+
+                  <h6 class="border-bottom pb-2 text-secondary"><i class="bi bi-card-list"></i> Artículos en la nota actual:</h6>
+                  <ul class="list-group mb-3" id="listaCarrito"></ul>
+                  
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fs-5 fw-bold text-dark">Total estimado:</span>
+                    <span class="fs-4 fw-bold text-success" id="totalVentaTxt">$0.00</span>
+                  </div>
+
+                  <button type="submit" class="btn btn-info w-100 fw-bold shadow-sm"><i class="bi bi-receipt-cutoff me-2"></i>Procesar Venta y Afectar Stock</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 mb-3 bg-dark text-white">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-info mb-0 text-uppercase tracking-wider font-monospace">Total Acumulado en Caja</h6>
+                  <h2 class="fw-bold mb-0" id="totalAcumuladoCaja">$0.00</h2>
+                </div>
+                <i class="bi bi-cash-coin fs-1 text-success"></i>
+              </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <h5 class="card-title mb-3 text-secondary"><i class="bi bi-clock-history text-info me-2"></i>Historial de Ventas</h5>
+                <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                  <table class="table table-sm table-hover align-middle">
+                    <thead class="table-secondary">
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Total</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tablaHistorialVentas"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
