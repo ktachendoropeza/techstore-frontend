@@ -3,6 +3,7 @@ const API_URL = 'https://techstore-backend-e1nq.onrender.com';
 // Estados locales temporales para la vista de ventas
 let carritoActual = [];
 let productosCache = [];
+let idProductoAEditar = null;
 
 // Al cargar el documento, jalar la información inicial del Servidor
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,6 +41,9 @@ async function cargarProductos() {
             </span>
           </td>
           <td>
+            <button class="btn btn-sm btn-outline-warning me-1" onclick="prepararEdicion('${p._id}', '${p.nombre}', '${p.categoria}', ${p.precio}, ${p.stock})">
+              <i class="bi bi-pencil"></i>
+            </button>
             <button class="btn btn-sm btn-outline-danger" onclick="eliminarProducto('${p._id}')">
               <i class="bi bi-trash"></i>
             </button>
