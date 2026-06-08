@@ -72,9 +72,7 @@ document.getElementById('formProducto').addEventListener('submit', async (e) => 
 
   try {
     if (idProductoAEditar) {
-      // ==========================================
-      // MODO EDICIÓN: ENVIAR PUT AL BACKEND
-      // ==========================================
+
       const res = await fetch(`${API_URL}/productos/${idProductoAEditar}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -96,9 +94,7 @@ document.getElementById('formProducto').addEventListener('submit', async (e) => 
       }
 
     } else {
-      // ==========================================
-      // MODO CREACIÓN: TU CÓDIGO POST ORIGINAL
-      // ==========================================
+
       const res = await fetch(`${API_URL}/productos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
