@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://techstore-backend-e1nq.onrender.com';
 
 // Estados locales temporales para la vista de ventas
 let carritoActual = [];
