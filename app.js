@@ -1,3 +1,7 @@
+if (!localStorage.getItem('token')) {
+  window.location.href = 'login.html'; 
+}
+
 const API_URL = 'https://techstore-backend-e1nq.onrender.com';
 
 // Estados locales temporales para la vista de ventas
