@@ -1,4 +1,4 @@
-const API_URL = 'https://techstore-backend-e1nq.onrender.com';
+const API_URL = 'https://techstore-backend-e1nq.onrender.com/auth';
 
 const formLogin = document.getElementById('formLogin');
 const formRegistro = document.getElementById('formRegistro');
