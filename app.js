@@ -62,23 +62,62 @@ async function cargarProductos() {
 
 document.getElementById('formProducto').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const nuevoProd = {
+  
+  const datosProd = {
     nombre: document.getElementById('prodNombre').value,
     categoria: document.getElementById('prodCategoria').value,
     precio: parseFloat(document.getElementById('prodPrecio').value),
     stock: parseInt(document.getElementById('prodStock').value)
   };
 
-  const res = await fetch(`${API_URL}/productos`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(nuevoProd)
-  });
+  try {
+    if (idProductoAEditar) {
+      // ==========================================
+      // MODO EDICIÓN: ENVIAR PUT AL BACKEND
+      // ==========================================
+      const res = await fetch(`${API_URL}/productos/${idProductoAEditar}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datosProd)
+      });
 
-  if (res.ok) {
+      if (res.ok) {
+        alert('✅ ¡Producto actualizado con éxito en Atlas!');
+        idProductoAEditar = null; // Resetear el estado de edición
+        
+        // Restaurar el botón a su estado original (Verde de Bootstrap)
+        const btnSubmit = document.querySelector("#formProducto button[type='submit']");
+        if (btnSubmit) {
+          btnSubmit.className = "btn btn-primary";
+          btnSubmit.innerHTML = "Guardar Producto";
+        }
+      } else {
+        alert('❌ Error al actualizar el producto.');
+      }
+
+    } else {
+      // ==========================================
+      // MODO CREACIÓN: TU CÓDIGO POST ORIGINAL
+      // ==========================================
+      const res = await fetch(`${API_URL}/productos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datosProd)
+      });
+
+      if (res.ok) {
+        alert('✅ Producto insertado en el inventario de Atlas!');
+      } else {
+        alert('❌ Error al insertar el producto.');
+      }
+    }
+
+    // Limpiar formulario y refrescar la tabla en ambos casos
     document.getElementById('formProducto').reset();
     cargarProductos();
-    alert('✅ Producto insertado en el inventario de Atlas!');
+
+  } catch (err) {
+    console.error('Error en la operación del producto:', err);
   }
 });
 
@@ -86,6 +125,23 @@ async function eliminarProducto(id) {
   if (confirm('¿Seguro que deseas eliminar este producto?')) {
     await fetch(`${API_URL}/productos/${id}`, { method: 'DELETE' });
     cargarProductos();
+  }
+}
+
+async function prepararEdicion(id, nombre, categoria, precio, stock) {
+  idProductoAEditar = id; // Guardamos el ID global
+
+  // Rellenamos los inputs reales de tu formulario con los datos del producto
+  document.getElementById('prodNombre').value = nombre;
+  document.getElementById('prodCategoria').value = categoria;
+  document.getElementById('prodPrecio').value = precio;
+  document.getElementById('prodStock').value = stock;
+
+  // Cambiamos el estilo y texto del botón del formulario para avisar que se está editando
+  const btnSubmit = document.querySelector("#formProducto button[type='submit']");
+  if (btnSubmit) {
+    btnSubmit.className = "btn btn-warning";
+    btnSubmit.innerHTML = "<i class='bi bi-pencil-square'></i> Actualizar Producto";
   }
 }
 
